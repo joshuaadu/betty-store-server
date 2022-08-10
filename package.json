@@ -1,0 +1,23 @@
+{
+  "name": "betty-store-server",
+  "version": "1.0.0",
+  "description": "Server for Betty Store Management App",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/joshuaadu/betty-store-server.git"
+  },
+  "author": "Joshua Adu-Mensah",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/joshuaadu/betty-store-server/issues"
+  },
+  "homepage": "https://github.com/joshuaadu/betty-store-server#readme",
+  "devDependencies": {
+    "nodemon": "^2.0.19"
+  }
+}
