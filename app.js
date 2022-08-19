@@ -1,4 +1,9 @@
-const http = require("http");
+const express = require("express");
 
-const server = http.createServer();
-server.listen(3002);
+const app = express();
+
+app.use("/products", (req, res, next) => {
+  res.send({ products: ["iphone", "samsung"] });
+});
+
+app.listen(3001);
