@@ -26,32 +26,65 @@ const routesHandler = (req, res) => {
 	}
 
 	if (url === "/users") {
-		res.write("<html>");
-		res.write("<head>");
-		res.write("<title>List of Users</title>");
-		res.write("</head>");
-		res.write("<body>");
-		res.write("<ul><li>User 1</li><li>User 2</li></ul>");
-		res.write("</body>");
-		res.write("</html>");
-		return res.end();
+		let users = [];
+		// Read users database
+		fs.readFile("users.txt", "utf-8", (err, data) => {
+			if (err) {
+				console.log("Unable to load users from Database.");
+				res.write("<html>");
+				res.write("<head>");
+				res.write("<title>List of Users</title>");
+				res.write("</head>");
+				res.write("<body>");
+				res.write("<p>Empty user list</p>");
+				res.write(
+					'<a href="/"><button type="submit">Add new user!</button></a>'
+				);
+				res.write("</body>");
+				res.write("</html>");
+				return res.end();
+			}
+			// Create users list and filter out "\n" entry
+			users = data
+				.split("\n")
+				.filter((user) => user !== "")
+				.map((user) => `<li>${user}</li>`)
+				.join("");
+			console.log(users);
+			res.write("<html>");
+			res.write("<head>");
+			res.write("<title>List of Users</title>");
+			res.write("</head>");
+			res.write("<body>");
+			res.write(`<ul>${users}</ul>`);
+			res.write('<a href="/"><button type="submit">Add new user!</button></a>');
+			res.write("</body>");
+			res.write("</html>");
+			return res.end();
+		});
 	}
 	if (url === "/create-user" && method === "POST") {
 		let body = [];
+		// Listen to data stream and store data
 		req.on("data", (chunk) => {
 			console.log(chunk);
 			body.push(chunk);
 		});
+		// Save user name when stream ends
 		return req.on("end", () => {
 			const parsedBody = Buffer.concat(body).toString();
 			console.log(parsedBody);
 			const name = parsedBody.split("=")[1];
 			console.log(name);
-			fs.writeFile("users.txt", name, (err) => {
-				res.statusCode = 302;
-				res.setHeader("Location", "/users");
-				return res.end();
+
+			fs.appendFile("users.txt", `${name}\n`, (err) => {
+				if (err) throw err;
+				console.log("User has been added to database!");
 			});
+			res.statusCode = 302;
+			res.setHeader("Location", "/users");
+
+			return res.end();
 		});
 	}
 };
