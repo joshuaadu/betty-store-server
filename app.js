@@ -1,9 +1,6 @@
-const express = require("express");
+const http = require("http");
+const router = require("./routes");
 
-const app = express();
+const server = http.createServer(router.handler);
 
-app.use("/products", (req, res, next) => {
-  res.send({ products: ["iphone", "samsung"] });
-});
-
-app.listen(3001);
+server.listen(3000);
