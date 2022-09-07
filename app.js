@@ -1,6 +1,20 @@
-const http = require("http");
-const router = require("./routes");
+const path = require("path");
 
-const server = http.createServer(router.handler);
+const express = require("express");
 
-server.listen(3000);
+const mainRoutes = require("./routes/index");
+const usersRoutes = require("./routes/users");
+
+const rootDir = require("./util/path");
+
+const app = express();
+
+app.use(express.static(path.join(rootDir, "public")));
+
+app.use(mainRoutes);
+app.use("/users", usersRoutes);
+app.get("/*", (req, res) => {
+	res.status(404).sendFile(path.join(__dirname, "views", "404.html"));
+});
+
+app.listen(3003);
