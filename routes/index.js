@@ -8,7 +8,7 @@ const app = express();
 const router = express.Router();
 
 router.get("/", (req, res, next) => {
-	res.sendFile(path.join(rootDir, "views", "index.html"));
+	res.status(200).render("index.ejs", {pageTitle: "Welcome"});
 });
 
 module.exports = router;
