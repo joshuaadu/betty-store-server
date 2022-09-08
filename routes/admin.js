@@ -2,7 +2,7 @@ const path = require("path");
 
 const express = require("express");
 
-const productControllers = require("../controllers/products")
+const productControllers = require("../controllers/admin")
 
 const router = express.Router();
 

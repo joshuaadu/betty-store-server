@@ -4,6 +4,7 @@ const express = require("express");
 
 const adminRoutes = require("./routes/admin");
 const shopRoutes = require("./routes/shop");
+// const cartRoutes = require("./routes/cart");
 const errorController = require("./controllers/error")
 const Product = require("./models/product")
 
